@@ -1,28 +1,14 @@
 <template>
   <div class="container">
     <div>
-      <logo />
+      <img src="https://media.giphy.com/media/fng8OzU2DvO2NCGeLY/giphy.gif" height="212" width="212">
       <h1 class="title">
-        Life Happens
+        About the app
       </h1>
-      <h2 class="subtitle">
-        Simple, mobile-first VueJS WebApp that helps you track progress in your life 📈
-      </h2>
-      <div class="links">
-        <a
-          href="/about"
-          class="button--green"
-        >
-          Learn more
-        </a>
-        <a
-          href="/app"
-          target="_blank"
-          class="button--grey"
-        >
-          Start exploring
-        </a>
-      </div>
+      <h1>
+          No login required 🚫
+          <p>Take control of you data. Manage data on your local browser. Export data or delete data when you wish.</p>
+      </h1>
     </div>
   </div>
 </template>

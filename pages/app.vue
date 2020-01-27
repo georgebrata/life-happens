@@ -1,26 +1,25 @@
 <template>
   <div class="container">
     <div>
-      <logo />
+      <img src="https://media.giphy.com/media/fng8OzU2DvO2NCGeLY/giphy.gif" height="212" width="212">
       <h1 class="title">
         Life Happens
       </h1>
       <h2 class="subtitle">
-        Simple, mobile-first VueJS WebApp that helps you track progress in your life 📈
+        Manage visual representations of key aspects of your life 👀
       </h2>
+      <h3 class="subtitle">
+        Edit cards on the dashboard for best visual representation 🔺
+      </h3>
+      <h3 class="subtitle">
+        Complex recurrent flows 🔁
+      </h3>
       <div class="links">
         <a
-          href="/about"
+          href="."
           class="button--green"
         >
-          Learn more
-        </a>
-        <a
-          href="/app"
-          target="_blank"
-          class="button--grey"
-        >
-          Start exploring
+          Go to dashboard
         </a>
       </div>
     </div>
