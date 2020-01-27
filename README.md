@@ -1,4 +1,4 @@
-Life Happens 🤷‍♂️
+# Life Happens 🤷‍♂️
 
 > Simple, mobile-first VueJS WebApp that helps you track progress in your life 📈
 
