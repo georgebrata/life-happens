@@ -6,7 +6,7 @@
         Life Happens
       </h1>
       <h2 class="subtitle">
-        Simple, mobile-first VueJS WebApp that helps you track progress in your life 📈
+        Track progress in your life 📈
       </h2>
       <div class="links">
         <a
@@ -16,8 +16,7 @@
           Learn more
         </a>
         <a
-          href="/app"
-          target="_blank"
+          href="/canvas"
           class="button--grey"
         >
           Start exploring
