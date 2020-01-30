@@ -1,7 +1,7 @@
 # Life Happens 🤷‍♂️
 
 <img src="https://media.giphy.com/media/fng8OzU2DvO2NCGeLY/giphy.gif" height="212" width="212"/>
-#### Simple, mobile-first VueJS WebApp that helps you track progress in your life 📈
+<h4>Simple, mobile-first VueJS WebApp that helps you track progress in your life 📈</h4>
 
 ## Build Setup
 
