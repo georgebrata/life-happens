@@ -1,19 +1,23 @@
 <template>
   <div class="container-fluid" style="padding-top: 8px;">
     <a-row :gutter="16">
-      <a-col :span="8">
-        <a-card title="Card title" :bordered="false">
-          <p>card content</p>
-          <highcharts :options="chartOptions"></highcharts>
-        </a-card>
+      <a-col :span="24">
+        <h1>Card</h1>
       </a-col>
-      <a-col :span="8">
-        <tally-card :card="cards[0]" @newLog="newTallyLog"></tally-card>
-      </a-col>
-      <a-col :span="8">
-        <a-card :loading="true" title="Card title" :bordered="false">
-          <p>card content</p>
-        </a-card>
+      <a-col :span="24">
+        <a-tabs>
+          <a-tab-pane tab="Settings" key="1">
+            <edit-card-form :card="cards[0]"></edit-card-form>
+          </a-tab-pane>
+          <a-tab-pane tab="Data" key="2">
+            <edit-card-data :card="cards[0]"></edit-card-data>
+          </a-tab-pane>
+          <a-tab-pane tab="Card Theme" key="3">
+
+          </a-tab-pane>
+          <a-tab-pane tab="Visualization" key="4">Content of tab 3</a-tab-pane>
+          <a-button type="danger" slot="tabBarExtraContent">Delete card</a-button>
+        </a-tabs>
       </a-col>
     </a-row>
   </div>
@@ -21,20 +25,22 @@
 
 <script>
 import Logo from "~/components/Logo.vue";
-import TallyCard from "~/components/cards/TallyCard.vue";
+import EditCardForm from "~/components/cards/EditCardForm.vue";
+import EditCardData from "~/components/cards/EditCardForm.vue";
+import EditCardForm from "~/components/cards/EditCardForm.vue";
 import { Chart } from "highcharts-vue";
 
 export default {
   layout: "canvas",
   components: {
     Logo,
-    TallyCard,
+    EditCardForm,
     highcharts: Chart
   },
   methods: {
     newTallyLog: function(newLog) {
       this.cards[0].data.logs.push(newLog);
-      console.log("NEW LOG: ", this.cards[0].data.logs)
+      console.log("NEW LOG: ", this.cards[0].data.logs);
     }
   },
   data() {
@@ -56,12 +62,12 @@ export default {
               {
                 label: "amet",
                 date: "Sun Apr 19 2015 11:34:51 GMT+0000",
-                value: 0,
+                value: 0
               },
               {
                 label: "amet",
                 date: "Thu Jun 15 2016 10:21:26 GMT+0000",
-                value: 4,
+                value: 4
               },
               {
                 label: "amet",

@@ -1,7 +1,7 @@
 <template>
   <a-card :title="card.title" hoverable :loading="state.isLoading">
     <a href="#" slot="extra">
-      <a-icon type="edit" title="Edit card" style="padding: 0 5px;" class="hover-visible" />
+      <a-icon type="edit" title="Edit card" style="padding: 0 5px;" class="hover-visible" @click="window.location = '/card/123'"></a-icon>
       <a-icon type="copy" title="Copy to clipboard" style="padding: 0 5px;" class="hover-visible" />
       <a-icon type="info-circle" style="padding: 0 5px;" />
     </a>
