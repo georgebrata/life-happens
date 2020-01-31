@@ -7,20 +7,26 @@
     </a>
     <a-progress type="circle" :percent="percent" class="mb2" />
     <template class="ant-card-actions" slot="actions">
-        <a-icon v-if="state.newLogMode" type="minus" class="m2" @click="decrementValue" />
-        <a-input-number placeholder="how much?" v-if="state.newLogMode" size="large" :min="1" :max="10000" v-model="state.value" />
-        <a-icon v-if="state.newLogMode" type="plus" class="m2" @click="incrementValue" />
-        <div v-else class="m2" @click="toggleNewLogMode">NEW LOG</div>
+      <a-icon v-if="state.newLogMode" type="minus" class="m2" @click="decrementValue" />
+      <a-input-number
+        placeholder="how much?"
+        v-if="state.newLogMode"
+        size="large"
+        :min="1"
+        :max="10000"
+        v-model="state.value"
+      />
+      <a-icon v-if="state.newLogMode" type="plus" class="m2" @click="incrementValue" />
+      <div v-else class="m2" @click="toggleNewLogMode">NEW LOG</div>
     </template>
     <a-card-meta :title="displayLabel"></a-card-meta>
-    <div class="last-update-label">Last updated {{lastUpdateDate}}</div>
+    <div class="last-update-label">Created {{creationDate}}, last updated {{lastUpdateDate}}</div>
   </a-card>
 </template>
 
 <script>
 import { createComponent, computed, reactive, ref } from "@vue/composition-api";
-import { format } from 'timeago.js';
-
+import { format } from "timeago.js";
 
 export default createComponent({
   name: "ProgressCard",
@@ -31,26 +37,32 @@ export default createComponent({
     let state = reactive({ newLogMode: false, value: null, isLoading: false });
 
     const currentValue = computed(
-        () => card.data.logs[card.data.logs.length - 1].value
+      () => card.data.logs[card.data.logs.length - 1].value
     );
+    const creationDate = computed(() => format(card.createdAt));
 
     let currentLabel = computed(
       () => card.data.logs[card.data.logs.length - 1].label
     );
 
-    let currentTotal = computed(
-      () => parseInt(card.data.logs[card.data.logs.length - 1].total)
+    let currentTotal = computed(() =>
+      parseInt(card.data.logs[card.data.logs.length - 1].total)
     );
 
     let displayLabel = computed(
-      () => currentValue.value + " " + currentLabel.value + " out of " + currentTotal.value
+      () =>
+        currentValue.value +
+        " " +
+        currentLabel.value +
+        " out of " +
+        currentTotal.value
     );
 
-    let lastUpdateDate = computed(
-      () => format(card.data.logs[card.data.logs.length - 1].date)
+    let lastUpdateDate = computed(() =>
+      format(card.data.logs[card.data.logs.length - 1].date)
     );
-    const percent = computed(
-        () => parseInt(currentValue.value*100/currentTotal.value)
+    const percent = computed(() =>
+      parseInt((currentValue.value * 100) / currentTotal.value)
     );
 
     function toggleNewLogMode() {
@@ -68,7 +80,7 @@ export default createComponent({
         total: card.data.logs[card.data.logs.length - 1].total,
         label: card.data.logs[card.data.logs.length - 1].label
       };
-      toggleNewLogMode()
+      toggleNewLogMode();
       emit("newLog", newLog);
     }
 
@@ -79,13 +91,14 @@ export default createComponent({
         total: card.data.logs[card.data.logs.length - 1].total,
         label: card.data.logs[card.data.logs.length - 1].label
       };
-      toggleNewLogMode()
+      toggleNewLogMode();
       emit("newLog", newLog);
     }
 
     return {
       state,
       currentValue,
+      creationDate,
       currentLabel,
       currentTotal,
       displayLabel,

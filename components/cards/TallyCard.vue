@@ -1,7 +1,13 @@
 <template>
   <a-card :title="card.title" hoverable :loading="state.isLoading">
     <a href="#" slot="extra">
-      <a-icon type="edit" title="Edit card" style="padding: 0 5px;" class="hover-visible" @click="window.location = '/card/123'"></a-icon>
+      <a-icon
+        type="edit"
+        title="Edit card"
+        style="padding: 0 5px;"
+        class="hover-visible"
+        @click="window.location = '/card/123'"
+      ></a-icon>
       <a-icon type="copy" title="Copy to clipboard" style="padding: 0 5px;" class="hover-visible" />
       <a-icon type="info-circle" style="padding: 0 5px;" />
     </a>
@@ -20,14 +26,13 @@
       <div v-else class="m2" @click="toggleNewLogMode">NEW LOG</div>
     </template>
     <a-card-meta :title="displayLabel"></a-card-meta>
-    <div class="last-update-label">Last updated {{lastUpdateDate}}</div>
+    <div class="last-update-label">Created {{creationDate}}, last updated {{lastUpdateDate}}</div>
   </a-card>
 </template>
 
 <script lang="ts">
 import { createComponent, computed, reactive, ref } from "@vue/composition-api";
-import { format } from 'timeago.js';
-
+import { format } from "timeago.js";
 
 export default createComponent({
   name: "TallyCard",
@@ -38,21 +43,21 @@ export default createComponent({
     let state = reactive({ newLogMode: false, value: null, isLoading: false });
 
     const currentValue = computed(
-        () => card.data.logs[card.data.logs.length - 1].value
+      () => card.data.logs[card.data.logs.length - 1].value
+    );
+    const creationDate = computed(
+      () => format(card.createdAt)
     );
 
     let currentLabel = computed(
       () => card.data.logs[card.data.logs.length - 1].label
     );
 
-    let displayLabel = computed(
-      () => currentLabel.value
-    );
+    let displayLabel = computed(() => currentLabel.value);
 
-    let lastUpdateDate = computed(
-      () => format(card.data.logs[card.data.logs.length - 1].date)
+    let lastUpdateDate = computed(() =>
+      format(card.data.logs[card.data.logs.length - 1].date)
     );
-
 
     function toggleNewLogMode() {
       state.newLogMode = !state.newLogMode;
@@ -69,7 +74,7 @@ export default createComponent({
         total: card.data.logs[card.data.logs.length - 1].total,
         label: card.data.logs[card.data.logs.length - 1].label
       };
-      toggleNewLogMode()
+      toggleNewLogMode();
       emit("newLog", newLog);
     }
 
@@ -80,13 +85,14 @@ export default createComponent({
         total: card.data.logs[card.data.logs.length - 1].total,
         label: card.data.logs[card.data.logs.length - 1].label
       };
-      toggleNewLogMode()
+      toggleNewLogMode();
       emit("newLog", newLog);
     }
 
     return {
       state,
       currentValue,
+      creationDate,
       currentLabel,
       displayLabel,
       lastUpdateDate,

@@ -84,40 +84,7 @@ export default {
             ]
           }
         },
-        {
-          id: "04059f84-6e5d-456c-a54d-a2e88b0b0e05",
-          xOffset: 136,
-          yOffset: 759,
-          width: 414,
-          height: 403,
-          type: "days-until",
-          category: "personal",
-          title: "Brewer",
-          description: "Hays",
-          createdAt: "Sun Mar 31 2013 22:19:09 GMT+0000",
-          data: {
-            logs: [
-              {
-                label: "aliquip",
-                date: "Thu Jan 30 2020 02:09:48 GMT+0000",
-                value: 139,
-                total: 552
-              },
-              {
-                label: "aute",
-                date: "Mon Nov 21 2016 15:03:31 GMT+0000",
-                value: 150,
-                total: 504
-              },
-              {
-                label: "laboris",
-                date: "Wed Dec 12 2018 13:20:28 GMT+0000",
-                value: 391,
-                total: 720
-              }
-            ]
-          }
-        },
+
         {
           id: "bb3cba68-2b5a-42ea-b59b-8b2c1b336689",
           xOffset: 62,
@@ -153,74 +120,6 @@ export default {
           }
         },
         {
-          id: "1f4a238f-d353-40c6-be28-92128cb7edeb",
-          xOffset: 364,
-          yOffset: 526,
-          width: 433,
-          height: 460,
-          type: "days-until",
-          category: "personal",
-          title: "Irene",
-          description: "James",
-          createdAt: "Tue Dec 04 2018 04:39:16 GMT+0000",
-          data: {
-            logs: [
-              {
-                label: "ex",
-                date: "Sat Nov 09 2019 08:37:07 GMT+0000",
-                value: 476,
-                total: 825
-              },
-              {
-                label: "in",
-                date: "Mon Mar 11 2019 02:28:53 GMT+0000",
-                value: 467,
-                total: 600
-              },
-              {
-                label: "exercitation",
-                date: "Wed Jun 22 2016 03:33:18 GMT+0000",
-                value: 199,
-                total: 539
-              }
-            ]
-          }
-        },
-        {
-          id: "97c1e462-3139-48b8-9a02-4714990f23a2",
-          xOffset: 473,
-          yOffset: 217,
-          width: 329,
-          height: 483,
-          type: "days-until",
-          category: "personal",
-          title: "Wendi",
-          description: "Nguyen",
-          createdAt: "Sat May 09 2015 11:08:45 GMT+0000",
-          data: {
-            logs: [
-              {
-                label: "cillum",
-                date: "Tue May 02 2017 10:29:14 GMT+0000",
-                value: 458,
-                total: 540
-              },
-              {
-                label: "proident",
-                date: "Fri Jul 20 2018 10:14:57 GMT+0000",
-                value: 667,
-                total: 668
-              },
-              {
-                label: "ut",
-                date: "Wed Dec 18 2019 14:55:08 GMT+0000",
-                value: 557,
-                total: 537
-              }
-            ]
-          }
-        },
-        {
           id: "1581bbbe-2d67-474a-aec5-4f764c543758",
           xOffset: 143,
           yOffset: 977,
@@ -250,40 +149,6 @@ export default {
                 date: "Mon Jun 10 2019 03:31:49 GMT+0000",
                 value: 660,
                 total: 590
-              }
-            ]
-          }
-        },
-        {
-          id: "d7dc6d0c-9be0-4af1-a319-4a7a5aed6a3c",
-          xOffset: 216,
-          yOffset: 50,
-          width: 349,
-          height: 321,
-          type: "days-until",
-          category: "personal",
-          title: "Barber",
-          description: "Montoya",
-          createdAt: "Wed Sep 16 2015 16:52:25 GMT+0000",
-          data: {
-            logs: [
-              {
-                label: "enim",
-                date: "Mon Jul 06 2015 13:12:12 GMT+0000",
-                value: 356,
-                total: 740
-              },
-              {
-                label: "laborum",
-                date: "Thu Oct 26 2017 01:58:07 GMT+0000",
-                value: 730,
-                total: 548
-              },
-              {
-                label: "nostrud",
-                date: "Tue May 12 2015 11:12:10 GMT+0000",
-                value: 139,
-                total: 804
               }
             ]
           }
