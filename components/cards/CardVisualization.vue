@@ -23,7 +23,7 @@ export default {
         },
         series: [
           {
-            data: this.card.data.logs.map(x => parseInt(x.value))
+            data: this.card.data.logs.map(x => parseInt(x.value)),
             color: "#6fcd98"
           }
         ]
