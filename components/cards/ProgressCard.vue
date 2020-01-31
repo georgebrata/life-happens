@@ -5,32 +5,25 @@
       <a-icon type="copy" title="Copy to clipboard" style="padding: 0 5px;" class="hover-visible" />
       <a-icon type="info-circle" style="padding: 0 5px;" />
     </a>
-    <h1>{{currentValue}}</h1>
+    <a-progress type="circle" :percent="percent" class="mb2" />
     <template class="ant-card-actions" slot="actions">
-      <a-icon v-if="state.newLogMode" type="minus" class="m2" @click="decrementValue" />
-      <a-input-number
-        placeholder="how much?"
-        v-if="state.newLogMode"
-        size="large"
-        :min="1"
-        :max="10000"
-        v-model="state.value"
-      />
-      <a-icon v-if="state.newLogMode" type="plus" class="m2" @click="incrementValue" />
-      <div v-else class="m2" @click="toggleNewLogMode">NEW LOG</div>
+        <a-icon v-if="state.newLogMode" type="minus" class="m2" @click="decrementValue" />
+        <a-input-number placeholder="how much?" v-if="state.newLogMode" size="large" :min="1" :max="10000" v-model="state.value" />
+        <a-icon v-if="state.newLogMode" type="plus" class="m2" @click="incrementValue" />
+        <div v-else class="m2" @click="toggleNewLogMode">NEW LOG</div>
     </template>
     <a-card-meta :title="displayLabel"></a-card-meta>
     <div class="last-update-label">Last updated {{lastUpdateDate}}</div>
   </a-card>
 </template>
 
-<script lang="ts">
+<script>
 import { createComponent, computed, reactive, ref } from "@vue/composition-api";
 import { format } from 'timeago.js';
 
 
 export default createComponent({
-  name: "TallyCard",
+  name: "ProgressCard",
   props: {
     card: Object
   },
@@ -45,14 +38,20 @@ export default createComponent({
       () => card.data.logs[card.data.logs.length - 1].label
     );
 
+    let currentTotal = computed(
+      () => parseInt(card.data.logs[card.data.logs.length - 1].total)
+    );
+
     let displayLabel = computed(
-      () => currentLabel.value
+      () => currentValue.value + " " + currentLabel.value + " out of " + currentTotal.value
     );
 
     let lastUpdateDate = computed(
       () => format(card.data.logs[card.data.logs.length - 1].date)
     );
-
+    const percent = computed(
+        () => parseInt(currentValue.value*100/currentTotal.value)
+    );
 
     function toggleNewLogMode() {
       state.newLogMode = !state.newLogMode;
@@ -88,8 +87,10 @@ export default createComponent({
       state,
       currentValue,
       currentLabel,
+      currentTotal,
       displayLabel,
       lastUpdateDate,
+      percent,
       onChange,
       incrementValue,
       decrementValue,

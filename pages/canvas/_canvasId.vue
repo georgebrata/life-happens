@@ -1,19 +1,17 @@
 <template>
   <div class="container-fluid" style="padding-top: 8px;">
     <a-row :gutter="16">
-      <a-col :span="8">
+      <!-- <a-col :span="8">
         <a-card title="Card title" :bordered="false">
           <p>card content</p>
           <highcharts :options="chartOptions"></highcharts>
         </a-card>
-      </a-col>
-      <a-col :span="8">
+      </a-col> -->
+      <a-col :span="12">
         <tally-card :card="cards[0]" @newLog="newTallyLog"></tally-card>
       </a-col>
-      <a-col :span="8">
-        <a-card :loading="true" title="Card title" :bordered="false">
-          <p>card content</p>
-        </a-card>
+      <a-col :span="12">
+        <progress-card :card="cards[1]" @newLog="newProgressLog"></progress-card>
       </a-col>
     </a-row>
   </div>
@@ -22,6 +20,7 @@
 <script>
 import Logo from "~/components/Logo.vue";
 import TallyCard from "~/components/cards/TallyCard.vue";
+import ProgressCard from "~/components/cards/ProgressCard.vue";
 import { Chart } from "highcharts-vue";
 
 export default {
@@ -29,12 +28,17 @@ export default {
   components: {
     Logo,
     TallyCard,
+    ProgressCard,
     highcharts: Chart
   },
   methods: {
+    newProgressLog: function(newLog) {
+      this.cards[1].data.logs.push(newLog);
+      console.log("NEW PROGRESS LOG: ", this.cards[1].data.logs)
+    },
     newTallyLog: function(newLog) {
       this.cards[0].data.logs.push(newLog);
-      console.log("NEW LOG: ", this.cards[0].data.logs)
+      console.log("NEW TALLY LOG: ", this.cards[0].data.logs)
     }
   },
   data() {
@@ -77,30 +81,30 @@ export default {
           yOffset: 759,
           width: 414,
           height: 403,
-          type: "days-until",
+          type: "progress",
           category: "personal",
-          title: "Brewer",
+          title: "1st progress",
           description: "Hays",
           createdAt: "Sun Mar 31 2013 22:19:09 GMT+0000",
           data: {
             logs: [
               {
                 label: "aliquip",
-                date: "Thu Jan 30 2020 02:09:48 GMT+0000",
-                value: 139,
-                total: 552
+                date: "Thu Jan 30 2018 02:09:48 GMT+0000",
+                value: 100,
+                total: 500
               },
               {
-                label: "aute",
-                date: "Mon Nov 21 2016 15:03:31 GMT+0000",
-                value: 150,
-                total: 504
+                label: "aliquip",
+                date: "Mon Nov 21 2018 15:03:31 GMT+0000",
+                value: 200,
+                total: 500
               },
               {
-                label: "laboris",
-                date: "Wed Dec 12 2018 13:20:28 GMT+0000",
-                value: 391,
-                total: 720
+                label: "aliquip",
+                date: "Wed Dec 12 2019 13:20:28 GMT+0000",
+                value: 300,
+                total: 500
               }
             ]
           }

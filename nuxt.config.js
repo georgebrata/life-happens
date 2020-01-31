@@ -32,6 +32,7 @@ module.exports = {
   plugins: [
     '@/plugins/antd-ui',
     '@/plugins/composition-api.js',
+    '@/plugins/timeago.min.js',
   ],
   /*
   ** Nuxt.js dev-modules
