@@ -2,7 +2,7 @@
   <div class="container-fluid" style="padding-top: 8px;">
     <a-row :gutter="16">
       <a-col :span="24">
-        <h1>Card</h1>
+        <h1>{{cards[0].title}}</h1>
       </a-col>
       <a-col :span="24">
         <a-tabs>
@@ -10,12 +10,14 @@
             <edit-card-form :card="cards[0]"></edit-card-form>
           </a-tab-pane>
           <a-tab-pane tab="Data" key="2">
-            <edit-card-data :card="cards[0]"></edit-card-data>
+            <edit-card-data :card="cards[0]" @newLog="newLog"></edit-card-data>
           </a-tab-pane>
           <a-tab-pane tab="Card Theme" key="3">
-
+            <edit-card-theme :card="cards[0]"></edit-card-theme>
           </a-tab-pane>
-          <a-tab-pane tab="Visualization" key="4">Content of tab 3</a-tab-pane>
+          <a-tab-pane tab="Visualization" key="4">
+            <card-visualization :card="cards[0]"></card-visualization>
+          </a-tab-pane>
           <a-button type="danger" slot="tabBarExtraContent">Delete card</a-button>
         </a-tabs>
       </a-col>
@@ -26,8 +28,9 @@
 <script>
 import Logo from "~/components/Logo.vue";
 import EditCardForm from "~/components/cards/EditCardForm.vue";
-import EditCardData from "~/components/cards/EditCardForm.vue";
-import EditCardForm from "~/components/cards/EditCardForm.vue";
+import EditCardData from "~/components/cards/EditCardData.vue";
+import EditCardTheme from "~/components/cards/EditCardTheme.vue";
+import CardVisualization from "~/components/cards/CardVisualization.vue";
 import { Chart } from "highcharts-vue";
 
 export default {
@@ -35,10 +38,14 @@ export default {
   components: {
     Logo,
     EditCardForm,
+    EditCardData,
+    EditCardTheme,
+    CardVisualization,
     highcharts: Chart
   },
   methods: {
-    newTallyLog: function(newLog) {
+    newLog: function(newLog) {
+      //check card type and call appropiate method
       this.cards[0].data.logs.push(newLog);
       console.log("NEW LOG: ", this.cards[0].data.logs);
     }

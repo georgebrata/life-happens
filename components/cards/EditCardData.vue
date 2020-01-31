@@ -1,48 +1,112 @@
 <template>
-  <a-list
-    class="comment-list"
-    :header="`${data.length} replies`"
-    itemLayout="horizontal"
-    :dataSource="data"
-  >
-    <a-list-item slot="renderItem" slot-scope="item, index">
-      <a-comment :author="item.author" :avatar="item.avatar">
-        <template slot="actions">
-          <span v-for="action in item.actions" :key="action">{{action}}</span>
-        </template>
-        <p slot="content">{{item.content}}</p>
-        <a-tooltip slot="datetime" :title="item.datetime.format('YYYY-MM-DD HH:mm:ss')">
-          <span>{{item.datetime.fromNow()}}</span>
-        </a-tooltip>
-      </a-comment>
-    </a-list-item>
-  </a-list>
+  <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
+    <a-list
+      class="comment-list"
+      :header="`${card.data.logs.length} logs`"
+      itemLayout="horizontal"
+      :dataSource="card.data.logs"
+    >
+      <a-list-item slot="renderItem" slot-scope="item, index">
+        <a-comment>
+          <p slot="content">{{item.value}} {{item.label}}</p>
+          <a-tooltip slot="datetime" :title="item.date">
+            <span>{{getFormatedDate(item.date)}}</span>
+          </a-tooltip>
+        </a-comment>
+      </a-list-item>
+    </a-list>
+    <hr class="m4">
+    <h2 class="m2"><a-icon type="plus" class="mr2"></a-icon>Add new log</h2>
+    <a-comment>
+      <div slot="content">
+        <a-form-item>
+          <a-input :rows="4" @change="handleChange" :value="value" :addonAfter="card.data.logs[card.data.logs.length-1].label"></a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-button
+            htmlType="submit"
+            :loading="submitting"
+            @click="handleSubmit"
+            type="primary"
+          >Add new log</a-button>
+        </a-form-item>
+      </div>
+    </a-comment>
+  </a-layout-content>
 </template>
 <script>
-  import moment from 'moment';
-  export default {
-    data() {
-      return {
-        data: [
-          {
-            actions: ['Reply to'],
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content:
-              'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            datetime: moment().subtract(1, 'days'),
-          },
-          {
-            actions: ['Reply to'],
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content:
-              'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            datetime: moment().subtract(2, 'days'),
-          },
-        ],
-        moment,
-      };
+import moment from "moment";
+import { format } from "timeago.js";
+
+export default {
+  props: {
+    card: Object
+  },
+  methods: {
+    getFormatedDate: function(date) {
+      console.log(this)
+      return format(date);
     },
-  };
+    handleSubmit() {
+      if (!this.value) {
+        return;
+      }
+      this.submitting = true;
+      const newLog = {
+        value: this.value,
+        date: new Date(),
+        label: this.card.data.logs[this.card.data.logs.length-1].label
+      }
+
+      setTimeout(() => {
+        this.submitting = false;
+        this.$emit('newLog', newLog)
+      }, 1000);
+    },
+    handleChange(e) {
+      this.value = e.target.value;
+    }
+  },
+  data() {
+    return {
+      comments: [],
+      submitting: false,
+      value: "",
+      moment,
+      data: [
+        {
+          actions: ["Reply to"],
+          author: "Han Solo",
+          avatar:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          content:
+            "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
+          datetime: moment().subtract(1, "days")
+        },
+        {
+          actions: ["Reply to"],
+          author: "Han Solo",
+          avatar:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          content:
+            "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
+          datetime: moment().subtract(2, "days")
+        }
+      ]
+    };
+  }
+};
 </script>
+<style>
+.ant-list-header {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+.ant-list-item {
+  padding: 0;
+}
+.ant-list-item-content-single {
+  justify-content: center;
+}
+</style>
