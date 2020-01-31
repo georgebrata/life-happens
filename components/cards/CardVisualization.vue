@@ -1,31 +1,34 @@
 <template>
-<h1>card visualization</h1>
+  <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
+    <highcharts :options="chartOptions"></highcharts>
+  </a-layout-content>
 </template>
 <script>
-  import moment from 'moment';
-  export default {
-    data() {
-      return {
-        data: [
+import { Chart } from "highcharts-vue";
+
+export default {
+  props: {
+    card: Object,
+    highcharts: Chart
+  },
+  data() {
+    console.log(this.card.data.logs.map(x => x.value))
+    return {
+      chartOptions: {
+        chart: {
+          type: "spline"
+        },
+        title: {
+          text: this.card.title
+        },
+        series: [
           {
-            actions: ['Reply to'],
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content:
-              'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            datetime: moment().subtract(1, 'days'),
-          },
-          {
-            actions: ['Reply to'],
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content:
-              'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            datetime: moment().subtract(2, 'days'),
-          },
-        ],
-        moment,
-      };
-    },
-  };
+            data: this.card.data.logs.map(x => parseInt(x.value))
+            color: "#6fcd98"
+          }
+        ]
+      }
+    };
+  }
+};
 </script>
