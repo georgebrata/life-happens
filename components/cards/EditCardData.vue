@@ -55,7 +55,7 @@ export default {
       const newLog = {
         value: this.value,
         date: new Date(),
-        label: this.card.data.logs[this.card.data.logs.length-1].label
+        label: this.card.data.logs && this.card.data.logs[this.card.data.logs.length-1].label
       }
 
       setTimeout(() => {

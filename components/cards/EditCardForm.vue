@@ -1,154 +1,121 @@
 <template>
-  <a-form>
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Fail"
-      validate-status="error"
-      help="Should be combination of numbers & alphabets"
-    >
-      <a-input id="error" placeholder="unavailable choice" />
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Warning"
-      validate-status="warning"
-    >
-      <a-input id="warning" placeholder="Warning" />
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Validating"
-      has-feedback
-      validate-status="validating"
-      help="The information is being validated..."
-    >
-      <a-input id="validating" placeholder="I'm the content is being validated" />
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Success"
-      has-feedback
-      validate-status="success"
-    >
-      <a-input id="success" placeholder="I'm the content" />
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Warning"
-      has-feedback
-      validate-status="warning"
-    >
-      <a-input id="warning2" placeholder="Warning" />
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Fail"
-      has-feedback
-      validate-status="error"
-      help="Should be combination of numbers & alphabets"
-    >
-      <a-input id="error2" placeholder="unavailable choice" />
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Success"
-      has-feedback
-      validate-status="success"
-    >
-      <a-date-picker style="width: 100%" />
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Warning"
-      has-feedback
-      validate-status="warning"
-    >
-      <a-time-picker style="width: 100%" />
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Error"
-      has-feedback
-      validate-status="error"
-    >
-      <a-select default-value="1">
-        <a-select-option value="1">Option 1</a-select-option>
-        <a-select-option value="2">Option 2</a-select-option>
-        <a-select-option value="3">Option 3</a-select-option>
-      </a-select>
-    </a-form-item>
-
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Validating"
-      has-feedback
-      validate-status="validating"
-      help="The information is being validated..."
-    >
-      <a-cascader :default-value="['1']" :options="[]" />
-    </a-form-item>
-
-    <a-form-item
-      label="inline"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      style="margin-bottom:0;"
-    >
-      <a-form-item
-        validate-status="error"
-        help="Please select the correct date"
-        :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
-      >
-        <a-date-picker style="width: 100%" />
+  <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
+    <a-form>
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Card name">
+        <a-input v-model="card.title" placeholder="please enter a cool name" />
       </a-form-item>
-      <span :style="{ display: 'inline-block', width: '24px', textAlign: 'center' }">-</span>
-      <a-form-item :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }">
-        <a-date-picker style="width: 100%" />
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Card name">
+        <a-textarea v-model="card.description" placeholder="please enter a cool description" />
       </a-form-item>
-    </a-form-item>
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Categories" has-feedback>
+        <a-checkbox-group style="width: 100%;" v-model="card.categories">
+          <a-row class="pt2">
+            <a-col :span="8">
+              <a-checkbox value="personal">Personal</a-checkbox>
+            </a-col>
+            <a-col :span="8">
+              <a-checkbox value="work">Work</a-checkbox>
+            </a-col>
+          </a-row>
+        </a-checkbox-group>
+      </a-form-item>
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Type" has-feedback>
+        <a-radio-group v-model="card.type" :defaultValue="card.type" buttonStyle="solid">
+          <a-radio-button value="countdown">Countdown</a-radio-button>
+          <a-radio-button value="tally">Tally</a-radio-button>
+          <a-radio-button value="progress">Progress</a-radio-button>
+        </a-radio-group>
+      </a-form-item>
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="." has-feedback>
+        <span>Created {{createdDate}}</span>
+      </a-form-item>
+    </a-form>
 
-    <a-form-item
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      label="Success"
-      has-feedback
-      validate-status="success"
-    >
-      <a-input-number style="width: 100%" />
-    </a-form-item>
-  </a-form>
+    <a-form v-if="card.type=='countdown'">
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Last tick date">
+        <a-date-picker style="width: 100%" v-model="countdownDate" />
+      </a-form-item>
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Last tick hour">
+        <a-time-picker style="width: 100%" v-model="countdownDate" />
+      </a-form-item>
+    </a-form>
+
+    <a-form v-if="card.type=='tally'">
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Default step">
+        <a-input-number v-model="card.data.defaultStep" placeholder="don't do 1" />
+      </a-form-item>
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Label">
+        <a-input
+          v-model="card.data.logs[card.data.logs.length-1].label"
+          placeholder="please use a cool label"
+        />
+      </a-form-item>
+    </a-form>
+
+    <a-form v-if="card.type==='progress'">
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Default step">
+        <a-input-number v-model="card.data.defaultStep" placeholder="don't do 1" />
+      </a-form-item>
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Label">
+        <a-input
+          v-model="card.data.logs[card.data.logs.length-1].label"
+          placeholder="please use a cool label"
+        />
+      </a-form-item>
+      <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="Total">
+        <a-input-number
+          v-model="card.data.logs[card.data.logs.length-1].total"
+          placeholder="DREAM BIG!"
+        />
+      </a-form-item>
+    </a-form>
+    <a-form>
+      <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+        <a-button :loading="state.isLoading" type="primary" block icon="check" @click="handleSaveChanges">Save changes</a-button>
+      </a-form-item>
+    </a-form>
+  </a-layout-content>
 </template>
+
 <script>
-export default {
-  data() {
+import { createComponent, computed, reactive, ref } from "@vue/composition-api";
+import { format } from "timeago.js";
+import moment from "moment";
+
+export default createComponent({
+  name: "CountdownCard",
+  props: {
+    card: Object
+  },
+  setup({ card }, { emit }) {
+    let state = reactive({ newLogMode: false, value: null, isLoading: false });
+    let labelCol = reactive({
+      xs: { span: 24 },
+      sm: { span: 5 }
+    });
+    let wrapperCol = reactive({
+      xs: { span: 24 },
+      sm: { span: 12 }
+    });
+
+    let currentLabel = computed(() => card.data.label);
+    let createdDate = computed(() => format(card.createdAt));
+    let countdownDate = computed(() => moment(card.data.date));
+
+    function handleSaveChanges() {
+      console.log("SAVE CHANGES: ")
+      emit('updateCard', {})
+    }
+
     return {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 5 }
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 }
-      }
+      state,
+      labelCol,
+      wrapperCol,
+      currentLabel,
+      createdDate,
+      countdownDate,
+      handleSaveChanges
     };
   }
-};
+});
 </script>

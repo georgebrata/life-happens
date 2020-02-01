@@ -112,7 +112,7 @@ export default createComponent({
   }
 });
 </script>
-<style>
+<style scoped>
 .ant-input-number-input {
   text-align: center !important;
 }

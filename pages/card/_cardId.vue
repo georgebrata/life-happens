@@ -2,23 +2,37 @@
   <div class="container-fluid" style="padding-top: 8px;">
     <a-row :gutter="16">
       <a-col :span="24">
+        <a-breadcrumb class="mt1 mb1">
+          <a-breadcrumb-item href>
+            <a-icon type="home" />
+          </a-breadcrumb-item>
+          <a-breadcrumb-item href>
+            <a-icon type="user" />
+            <span>Personal Cards</span>
+          </a-breadcrumb-item>
+          <a-breadcrumb-item>{{cards[0].title}}</a-breadcrumb-item>
+        </a-breadcrumb>
+      </a-col>
+      <a-col :span="24">
         <h1>{{cards[0].title}}</h1>
       </a-col>
       <a-col :span="24">
         <a-tabs>
           <a-tab-pane tab="Settings" key="1">
-            <edit-card-form :card="cards[0]"></edit-card-form>
+            <edit-card-form :card="cards[0]" @updateCard="updateCard"></edit-card-form>
           </a-tab-pane>
-          <a-tab-pane tab="Data" key="2">
+          <a-tab-pane tab="Data" key="2" v-if="cards[0].type !== 'countdown'">
             <edit-card-data :card="cards[0]" @newLog="newLog"></edit-card-data>
           </a-tab-pane>
-          <a-tab-pane tab="Card Theme" key="3">
-            <edit-card-theme :card="cards[0]"></edit-card-theme>
-          </a-tab-pane>
-          <a-tab-pane tab="Visualization" key="4">
+          <a-tab-pane
+            tab="Visualization"
+            key="3"
+            :forceRender="true"
+            v-if="cards[0].type !== 'countdown'"
+          >
             <card-visualization :card="cards[0]"></card-visualization>
           </a-tab-pane>
-          <a-button type="danger" slot="tabBarExtraContent">Delete card</a-button>
+          <a-button type="danger" slot="tabBarExtraContent" @click="handleDeleteCard">Delete card</a-button>
         </a-tabs>
       </a-col>
     </a-row>
@@ -29,7 +43,6 @@
 import Logo from "~/components/Logo.vue";
 import EditCardForm from "~/components/cards/EditCardForm.vue";
 import EditCardData from "~/components/cards/EditCardData.vue";
-import EditCardTheme from "~/components/cards/EditCardTheme.vue";
 import CardVisualization from "~/components/cards/CardVisualization.vue";
 import { Chart } from "highcharts-vue";
 
@@ -39,7 +52,6 @@ export default {
     Logo,
     EditCardForm,
     EditCardData,
-    EditCardTheme,
     CardVisualization,
     highcharts: Chart
   },
@@ -48,42 +60,49 @@ export default {
       //check card type and call appropiate method
       this.cards[0].data.logs.push(newLog);
       console.log("NEW LOG: ", this.cards[0].data.logs);
+    },
+    handleDeleteCard: function(card) {
+      console.log("delete Card: ", card)
+    },
+    updateCard: function(card) {
+      console.log("update Card: ", card)
     }
   },
   data() {
     return {
       cards: [
-        {
-          id: "dad2f381-f380-4e2f-9414-63ab9277ad47",
-          xOffset: 124,
-          yOffset: 208,
-          width: 349,
-          height: 382,
-          type: "tally",
-          category: "personal",
-          title: "1st tally card",
-          description: "Kirk",
-          createdAt: "Fri Aug 28 2015 06:47:30 GMT+0000",
-          data: {
-            logs: [
-              {
-                label: "amet",
-                date: "Sun Apr 19 2015 11:34:51 GMT+0000",
-                value: 0
-              },
-              {
-                label: "amet",
-                date: "Thu Jun 15 2016 10:21:26 GMT+0000",
-                value: 4
-              },
-              {
-                label: "amet",
-                date: "Sun Jan 03 2017 13:13:12 GMT+0000",
-                value: 5
-              }
-            ]
-          }
-        },
+
+        // {
+        //   id: "dad2f381-f380-4e2f-9414-63ab9277ad47",
+        //   xOffset: 124,
+        //   yOffset: 208,
+        //   width: 349,
+        //   height: 382,
+        //   type: "tally",
+        //   categories: ["work"],
+        //   title: "1st tally card",
+        //   description: "Kirk",
+        //   createdAt: "Fri Aug 28 2015 06:47:30 GMT+0000",
+        //   data: {
+        //     logs: [
+        //       {
+        //         label: "amet",
+        //         date: "Sun Apr 19 2015 11:34:51 GMT+0000",
+        //         value: 0
+        //       },
+        //       {
+        //         label: "amet",
+        //         date: "Thu Jun 15 2016 10:21:26 GMT+0000",
+        //         value: 4
+        //       },
+        //       {
+        //         label: "amet",
+        //         date: "Sun Jan 03 2017 13:13:12 GMT+0000",
+        //         value: 5
+        //       }
+        //     ]
+        //   }
+        // },
 
         {
           id: "bb3cba68-2b5a-42ea-b59b-8b2c1b336689",
@@ -92,7 +111,7 @@ export default {
           width: 432,
           height: 332,
           type: "progress",
-          category: "personal",
+          categories: ["personal"],
           title: "Janie",
           description: "Stephens",
           createdAt: "Sat Apr 05 2014 10:15:46 GMT+0000",
@@ -126,7 +145,7 @@ export default {
           width: 461,
           height: 444,
           type: "progress",
-          category: "work",
+          categories: ["work"],
           title: "Hinton",
           description: "Dickerson",
           createdAt: "Mon Jun 06 2016 09:42:46 GMT+0000",
@@ -160,7 +179,7 @@ export default {
           width: 408,
           height: 336,
           type: "progress",
-          category: "personal",
+          categories: ["personal"],
           title: "Hendricks",
           description: "Molina",
           createdAt: "Fri Jul 31 2015 04:15:50 GMT+0000",
@@ -194,7 +213,7 @@ export default {
           width: 302,
           height: 414,
           type: "tally",
-          category: "work",
+          categories: ["work"],
           title: "Page",
           description: "Kaufman",
           createdAt: "Fri Oct 28 2016 05:57:49 GMT+0000",

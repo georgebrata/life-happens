@@ -17,7 +17,7 @@
   </a-card>
 </template>
 
-<script lang="ts">
+<script>
 import { createComponent, computed, reactive, ref } from "@vue/composition-api";
 import { format } from "timeago.js";
 
@@ -67,24 +67,3 @@ export default createComponent({
   }
 });
 </script>
-<style>
-.ant-input-number-input {
-  text-align: center !important;
-}
-.ant-input-number.ant-input-number-lg {
-  width: 100%;
-}
-.ant-card-actions li {
-  margin: 5px 0px;
-}
-
-.ant-input-number {
-  border: 0;
-  background: #fafafa;
-}
-.last-update-label {
-  width: 100%;
-  padding: 30px 5px 0px 5px;
-  opacity: 0.75;
-}
-</style>

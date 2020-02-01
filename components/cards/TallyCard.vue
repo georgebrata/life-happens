@@ -30,7 +30,7 @@
   </a-card>
 </template>
 
-<script lang="ts">
+<script>
 import { createComponent, computed, reactive, ref } from "@vue/composition-api";
 import { format } from "timeago.js";
 
@@ -104,7 +104,7 @@ export default createComponent({
   }
 });
 </script>
-<style>
+<style scoped> 
 .ant-input-number-input {
   text-align: center !important;
 }
