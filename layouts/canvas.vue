@@ -2,12 +2,17 @@
   <a-layout id="components-layout-demo-side" style="min-height: 100vh">
     <a-layout-sider collapsible v-model="collapsed">
       <div class="logo" />
-      <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline">
-        <a-menu-item key="1">
+      <a-menu
+        theme="dark"
+        :selectedKeys="[this.activeCategory]"
+        mode="inline"
+        @click="handleMenuClick"
+      >
+        <a-menu-item key="personal">
           <a-icon type="user" />
           <span>Personal</span>
         </a-menu-item>
-        <a-menu-item key="2">
+        <a-menu-item key="work">
           <a-icon type="desktop" />
           <span>Work</span>
         </a-menu-item>
@@ -29,7 +34,7 @@
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header class="header">
+      <!-- <a-layout-header class="header">
         <a-menu
           theme="dark"
           mode="horizontal"
@@ -39,7 +44,7 @@
           <a-menu-item key="1">Setari</a-menu-item>
           <a-menu-item key="2">Datele mele</a-menu-item>
         </a-menu>
-      </a-layout-header>
+      </a-layout-header> -->
       <a-layout-content style="margin: 0 16px">
         <!-- <a-breadcrumb style="margin: 16px 0">
           <a-breadcrumb-item>User</a-breadcrumb-item>
@@ -64,8 +69,27 @@
 export default {
   data() {
     return {
-      collapsed: false
+      collapsed: false,
+      activeCategory: 'personal'
     };
+  },
+  mounted: function() {
+    if (window.location.hash) {
+      this.activeCategory = window.location.hash.substring(1);
+    }
+    console.log(this.activeCategory);
+  },
+  methods: {
+    handleMenuClick: function(item) {
+      window.location.hash = item.key;
+    }
+  },
+  watch: {
+    $route(to, from) {
+      console.log("change route")
+      this.activeCategory = to.hash.substring(1);
+      //this.$emit("changeActiveCategory", to.hash.substring(1));
+    }
   }
 };
 </script>

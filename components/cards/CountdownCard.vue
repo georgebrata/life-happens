@@ -1,19 +1,13 @@
 <template>
   <a-card :title="card.title" hoverable :loading="state.isLoading">
     <a href="#" slot="extra">
-      <a-icon
-        type="edit"
-        title="Edit card"
-        style="padding: 0 5px;"
-        class="hover-visible"
-        @click="window.location = '/card/123'"
-      ></a-icon>
-      <a-icon type="copy" title="Copy to clipboard" style="padding: 0 5px;" class="hover-visible" />
-      <a-icon type="info-circle" style="padding: 0 5px;" />
+      <nuxt-link :to="'/card/' + card.id">
+        <a-icon type="edit" style="padding: 0 5px;" />
+      </nuxt-link>
     </a>
     <h1>{{displayValue}}</h1>
     <h3>{{currentLabel}}</h3>
-    <div class="last-update-label">Created {{createdDate}}</div>
+    <div class="last-update-label">Created {{createdDate}}, last updated {{lastUpdateDate}}</div>
   </a-card>
 </template>
 
@@ -56,13 +50,17 @@ export default createComponent({
     });
 
     let createdDate = computed(() => format(card.createdAt));
+    let lastUpdateDate = computed(() =>
+      format(card.lastUpdate)
+    );
 
     return {
       state,
       currentLabel,
       displayValue,
       createdDate,
-      dateDiff
+      dateDiff,
+      lastUpdateDate
     };
   }
 });

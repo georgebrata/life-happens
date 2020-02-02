@@ -1,9 +1,11 @@
 <template>
-  <a-card :title="card.title" hoverable :loading="state.isLoading">
+  <a-card :title="card.title" hoverable :loading="state.isLoading" class="progress-card">
     <a href="#" slot="extra">
-      <a-icon type="edit" title="Edit card" style="padding: 0 5px;" class="hover-visible" />
-      <a-icon type="copy" title="Copy to clipboard" style="padding: 0 5px;" class="hover-visible" />
-      <a-icon type="info-circle" style="padding: 0 5px;" />
+      <!-- <a-icon type="edit" title="Edit card" style="padding: 0 5px;" class="hover-visible" />
+      <a-icon type="copy" title="Copy to clipboard" style="padding: 0 5px;" class="hover-visible" /> -->
+      <nuxt-link :to="'/card/' + card.id">
+        <a-icon type="edit" style="padding: 0 5px;" />
+      </nuxt-link>
     </a>
     <a-progress type="circle" :percent="percent" class="mb2" />
     <template class="ant-card-actions" slot="actions">
@@ -58,9 +60,7 @@ export default createComponent({
         currentTotal.value
     );
 
-    let lastUpdateDate = computed(() =>
-      format(card.data.logs[card.data.logs.length - 1].date)
-    );
+    let lastUpdateDate = computed(() => format(card.lastUpdate));
     const percent = computed(() =>
       parseInt((currentValue.value * 100) / currentTotal.value)
     );
@@ -81,7 +81,7 @@ export default createComponent({
         label: card.data.logs[card.data.logs.length - 1].label
       };
       toggleNewLogMode();
-      emit("newLog", newLog);
+      emit("newLog", card.id, newLog);
     }
 
     function decrementValue() {
@@ -92,7 +92,7 @@ export default createComponent({
         label: card.data.logs[card.data.logs.length - 1].label
       };
       toggleNewLogMode();
-      emit("newLog", newLog);
+      emit("newLog", card.id, newLog);
     }
 
     return {
@@ -112,22 +112,22 @@ export default createComponent({
   }
 });
 </script>
-<style scoped>
-.ant-input-number-input {
+<style>
+.progress-card .ant-input-number-input {
   text-align: center !important;
 }
-.ant-input-number.ant-input-number-lg {
+.progress-card .ant-input-number.ant-input-number-lg {
   width: 100%;
 }
-.ant-card-actions li {
+.progress-card .ant-card-actions li {
   margin: 5px 0px;
 }
 
-.ant-input-number {
+.progress-card .ant-input-number {
   border: 0;
   background: #fafafa;
 }
-.last-update-label {
+.progress-card .last-update-label {
   width: 100%;
   padding: 30px 5px 0px 5px;
   opacity: 0.75;

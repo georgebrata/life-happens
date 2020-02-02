@@ -1,15 +1,9 @@
 <template>
-  <a-card :title="card.title" hoverable :loading="state.isLoading">
+  <a-card :title="card.title" hoverable :loading="state.isLoading" class="tally-card">
     <a href="#" slot="extra">
-      <a-icon
-        type="edit"
-        title="Edit card"
-        style="padding: 0 5px;"
-        class="hover-visible"
-        @click="window.location = '/card/123'"
-      ></a-icon>
-      <a-icon type="copy" title="Copy to clipboard" style="padding: 0 5px;" class="hover-visible" />
-      <a-icon type="info-circle" style="padding: 0 5px;" />
+      <nuxt-link :to="'/card/' + card.id">
+        <a-icon type="edit" style="padding: 0 5px;" />
+      </nuxt-link>
     </a>
     <h1>{{currentValue}}</h1>
     <template class="ant-card-actions" slot="actions">
@@ -40,7 +34,7 @@ export default createComponent({
     card: Object
   },
   setup({ card }, { emit }) {
-    let state = reactive({ newLogMode: false, value: null, isLoading: false });
+    let state = reactive({ newLogMode: false, value: card.data.defaultStep || null, isLoading: false });
 
     const currentValue = computed(
       () => card.data.logs[card.data.logs.length - 1].value
@@ -56,7 +50,7 @@ export default createComponent({
     let displayLabel = computed(() => currentLabel.value);
 
     let lastUpdateDate = computed(() =>
-      format(card.data.logs[card.data.logs.length - 1].date)
+      format(card.lastUpdate)
     );
 
     function toggleNewLogMode() {
@@ -75,7 +69,7 @@ export default createComponent({
         label: card.data.logs[card.data.logs.length - 1].label
       };
       toggleNewLogMode();
-      emit("newLog", newLog);
+      emit("newLog", card.id, newLog);
     }
 
     function decrementValue() {
@@ -86,7 +80,7 @@ export default createComponent({
         label: card.data.logs[card.data.logs.length - 1].label
       };
       toggleNewLogMode();
-      emit("newLog", newLog);
+      emit("newLog", card.id, newLog);
     }
 
     return {
@@ -104,22 +98,21 @@ export default createComponent({
   }
 });
 </script>
-<style scoped> 
-.ant-input-number-input {
+<style> 
+.tally-card .ant-input-number-input {
   text-align: center !important;
 }
-.ant-input-number.ant-input-number-lg {
+.tally-card .ant-input-number.ant-input-number-lg {
   width: 100%;
 }
-.ant-card-actions li {
+.tally-card .ant-card-actions li {
   margin: 5px 0px;
 }
-
-.ant-input-number {
+.tally-card .ant-input-number {
   border: 0;
   background: #fafafa;
 }
-.last-update-label {
+.tally-card .last-update-label {
   width: 100%;
   padding: 30px 5px 0px 5px;
   opacity: 0.75;

@@ -3,34 +3,44 @@
     <a-row :gutter="16">
       <a-col :span="24">
         <a-breadcrumb class="mt1 mb1">
-          <a-breadcrumb-item href>
-            <a-icon type="home" />
-          </a-breadcrumb-item>
-          <a-breadcrumb-item href>
-            <a-icon type="user" />
-            <span>Personal Cards</span>
-          </a-breadcrumb-item>
-          <a-breadcrumb-item>{{cards[0].title}}</a-breadcrumb-item>
+          <nuxt-link to="/">
+            <a-breadcrumb-item href>
+              <a-icon type="home" />
+            </a-breadcrumb-item>
+          </nuxt-link>
+          <nuxt-link to="/canvas#personal" v-if="activeCategory === 'personal'">
+            <a-breadcrumb-item href>
+              <a-icon type="user" />
+              <span>{{activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}} Cards</span>
+            </a-breadcrumb-item>
+          </nuxt-link>
+          <nuxt-link to="/canvas#work" v-if="activeCategory === 'work'">
+            <a-breadcrumb-item href>
+              <a-icon type="desktop" />
+              <span>{{activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}} Cards</span>
+            </a-breadcrumb-item>
+          </nuxt-link>
+          <a-breadcrumb-item>{{card.title}}</a-breadcrumb-item>
         </a-breadcrumb>
       </a-col>
       <a-col :span="24">
-        <h1>{{cards[0].title}}</h1>
+        <h1>{{card.title}}</h1>
       </a-col>
       <a-col :span="24">
         <a-tabs>
           <a-tab-pane tab="Settings" key="1">
-            <edit-card-form :card="cards[0]" @updateCard="updateCard"></edit-card-form>
+            <edit-card-form :card="card" @updateCard="updateCard"></edit-card-form>
           </a-tab-pane>
-          <a-tab-pane tab="Data" key="2" v-if="cards[0].type !== 'countdown'">
-            <edit-card-data :card="cards[0]" @newLog="newLog"></edit-card-data>
+          <a-tab-pane tab="Data" key="2" v-if="card.type !== 'countdown'">
+            <edit-card-data :card="card" @newLog="newLog"></edit-card-data>
           </a-tab-pane>
           <a-tab-pane
             tab="Visualization"
             key="3"
             :forceRender="true"
-            v-if="cards[0].type !== 'countdown'"
+            v-if="card.type !== 'countdown'"
           >
-            <card-visualization :card="cards[0]"></card-visualization>
+            <card-visualization :card="card"></card-visualization>
           </a-tab-pane>
           <a-button type="danger" slot="tabBarExtraContent" @click="handleDeleteCard">Delete card</a-button>
         </a-tabs>
@@ -58,203 +68,114 @@ export default {
   methods: {
     newLog: function(newLog) {
       //check card type and call appropiate method
-      this.cards[0].data.logs.push(newLog);
+      //this.cards[0].data.logs.push(newLog);
       console.log("NEW LOG: ", this.cards[0].data.logs);
     },
     handleDeleteCard: function(card) {
-      console.log("delete Card: ", card)
+      console.log("delete Card: ", card);
     },
     updateCard: function(card) {
-      console.log("update Card: ", card)
+      console.log("update Card: ", card);
+    }
+  },
+  created() {
+    let cardId = this.$route.params.cardId;
+    let index = this.cards.findIndex(c => c.id === cardId);
+    if (index > -1) {
+      this.card = this.cards[index];
+    }
+    console.log(cardId, index);
+  },
+  mounted: function() {
+    if (window.location.hash) {
+      this.activeCategory = window.location.hash.substring(1);
+    }
+    console.log(this.activeCategory);
+  },
+  watch: {
+    $route(to, from) {
+      this.activeCategory = to.hash.substring(1);
     }
   },
   data() {
     return {
+      cardId: null,
+      activeCategory: "personal",
+      card: { data: { logs: [] } },
       cards: [
-
-        // {
-        //   id: "dad2f381-f380-4e2f-9414-63ab9277ad47",
-        //   xOffset: 124,
-        //   yOffset: 208,
-        //   width: 349,
-        //   height: 382,
-        //   type: "tally",
-        //   categories: ["work"],
-        //   title: "1st tally card",
-        //   description: "Kirk",
-        //   createdAt: "Fri Aug 28 2015 06:47:30 GMT+0000",
-        //   data: {
-        //     logs: [
-        //       {
-        //         label: "amet",
-        //         date: "Sun Apr 19 2015 11:34:51 GMT+0000",
-        //         value: 0
-        //       },
-        //       {
-        //         label: "amet",
-        //         date: "Thu Jun 15 2016 10:21:26 GMT+0000",
-        //         value: 4
-        //       },
-        //       {
-        //         label: "amet",
-        //         date: "Sun Jan 03 2017 13:13:12 GMT+0000",
-        //         value: 5
-        //       }
-        //     ]
-        //   }
-        // },
-
         {
-          id: "bb3cba68-2b5a-42ea-b59b-8b2c1b336689",
-          xOffset: 62,
-          yOffset: 443,
-          width: 432,
-          height: 332,
-          type: "progress",
+          id: "206931f5-88a5-46be-aa83-5c1ad3f99260",
+          xOffset: 774,
+          yOffset: 677,
+          width: 402,
+          height: 472,
+          type: "tally",
           categories: ["personal"],
-          title: "Janie",
-          description: "Stephens",
-          createdAt: "Sat Apr 05 2014 10:15:46 GMT+0000",
+          title: "Kathie",
+          description: "Roth",
+          createdAt: "Sun Aug 18 2019 18:15:54 GMT+0000",
+          lastUpdate: "Sat Jan 11 2020 01:07:49 GMT+0000",
           data: {
+            defaultStep: 3,
             logs: [
               {
-                label: "est",
-                date: "Sat Jun 02 2018 00:31:59 GMT+0000",
-                value: 606,
-                total: 527
+                label: "reprehenderit",
+                date: "Tue Mar 03 2015 12:00:20 GMT+0000",
+                value: 665,
+                total: 755
               },
               {
-                label: "ipsum",
-                date: "Sun Jun 12 2016 10:22:34 GMT+0000",
-                value: 401,
-                total: 840
+                label: "incididunt",
+                date: "Thu Jun 02 2016 14:05:37 GMT+0000",
+                value: 478,
+                total: 767
               },
               {
-                label: "qui",
-                date: "Thu Jun 21 2018 11:40:23 GMT+0000",
-                value: 72,
-                total: 549
+                label: "aute",
+                date: "Tue Oct 11 2016 16:20:06 GMT+0000",
+                value: 764,
+                total: 687
               }
             ]
           }
         },
         {
-          id: "1581bbbe-2d67-474a-aec5-4f764c543758",
-          xOffset: 143,
-          yOffset: 977,
-          width: 461,
-          height: 444,
+          id: "4532a4cf-b121-4d99-a524-34e788819459",
+          xOffset: 255,
+          yOffset: 793,
+          width: 392,
+          height: 389,
           type: "progress",
-          categories: ["work"],
-          title: "Hinton",
-          description: "Dickerson",
-          createdAt: "Mon Jun 06 2016 09:42:46 GMT+0000",
+          categories: ["personal", "work"],
+          title: "Progress card",
+          description: "1st progress card",
+          createdAt: "Thu Jan 23 2018 04:25:55 GMT+0000",
+          lastUpdate: "Thu Jun 21 2019 21:06:32 GMT+0000",
           data: {
+            defaultStep: 10,
             logs: [
               {
-                label: "nulla",
-                date: "Mon May 09 2016 17:02:14 GMT+0000",
-                value: 463,
-                total: 605
-              },
-              {
-                label: "veniam",
-                date: "Fri Nov 01 2019 00:47:27 GMT+0000",
-                value: 292,
-                total: 898
+                label: "enim",
+                date: "Fri Apr 10 2015 11:25:35 GMT+0000",
+                value: 191,
+                total: 1000
               },
               {
                 label: "id",
-                date: "Mon Jun 10 2019 03:31:49 GMT+0000",
-                value: 660,
-                total: 590
-              }
-            ]
-          }
-        },
-        {
-          id: "c349d649-3ad8-4121-a57b-ea94a01760ae",
-          xOffset: 3,
-          yOffset: 101,
-          width: 408,
-          height: 336,
-          type: "progress",
-          categories: ["personal"],
-          title: "Hendricks",
-          description: "Molina",
-          createdAt: "Fri Jul 31 2015 04:15:50 GMT+0000",
-          data: {
-            logs: [
-              {
-                label: "ut",
-                date: "Mon Dec 05 2016 14:26:16 GMT+0000",
-                value: 638,
-                total: 668
+                date: "Thu Sep 01 2016 04:43:37 GMT+0000",
+                value: 144,
+                total: 1000
               },
               {
-                label: "deserunt",
-                date: "Tue Sep 17 2019 06:59:11 GMT+0000",
-                value: 316,
-                total: 799
-              },
-              {
-                label: "et",
-                date: "Tue Dec 23 2014 23:52:26 GMT+0000",
-                value: 771,
-                total: 878
-              }
-            ]
-          }
-        },
-        {
-          id: "542f1fee-a2ae-400e-b279-c7f911fc9703",
-          xOffset: 710,
-          yOffset: 754,
-          width: 302,
-          height: 414,
-          type: "tally",
-          categories: ["work"],
-          title: "Page",
-          description: "Kaufman",
-          createdAt: "Fri Oct 28 2016 05:57:49 GMT+0000",
-          data: {
-            logs: [
-              {
-                label: "fugiat",
-                date: "Thu Sep 21 2017 12:34:05 GMT+0000",
-                value: 481,
-                total: 622
-              },
-              {
-                label: "quis",
-                date: "Tue Oct 15 2019 04:11:43 GMT+0000",
-                value: 442,
-                total: 790
-              },
-              {
-                label: "deserunt",
-                date: "Sat Sep 26 2015 14:23:31 GMT+0000",
-                value: 708,
-                total: 683
+                label: "nulla",
+                date: "Tue Jan 08 2019 23:24:44 GMT+0000",
+                value: 749,
+                total: 1000
               }
             ]
           }
         }
-      ],
-      chartOptions: {
-        chart: {
-          type: "spline"
-        },
-        title: {
-          text: "Sin chart"
-        },
-        series: [
-          {
-            data: [10, 0, 8, 2, 6, 4, 5, 5],
-            color: "#6fcd98"
-          }
-        ]
-      }
+      ]
     };
   }
 };
@@ -305,5 +226,8 @@ export default {
 }
 .ant-card-body {
   text-align: center;
+}
+.anticon span {
+  text-transform: capitalize;
 }
 </style>

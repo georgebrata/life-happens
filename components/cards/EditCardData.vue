@@ -4,11 +4,11 @@
       class="comment-list"
       :header="`${card.data.logs.length} logs`"
       itemLayout="horizontal"
-      :dataSource="card.data.logs"
+      :dataSource="card.data && card.data.logs"
     >
-      <a-list-item slot="renderItem" slot-scope="item, index">
+      <a-list-item slot="renderItem" slot-scope="item">
         <a-comment>
-          <p slot="content">{{item.value}} {{item.label}}</p>
+          <p slot="content">{{item && item.value}} {{item && item.label}}</p>
           <a-tooltip slot="datetime" :title="item.date">
             <span>{{getFormatedDate(item.date)}}</span>
           </a-tooltip>
@@ -20,7 +20,7 @@
     <a-comment>
       <div slot="content">
         <a-form-item>
-          <a-input :rows="4" @change="handleChange" :value="value" :addonAfter="card.data.logs[card.data.logs.length-1].label"></a-input>
+          <a-input :rows="4" @change="handleChange" :value="value" :addonAfter="getLabel"></a-input>
         </a-form-item>
         <a-form-item>
           <a-button
@@ -42,6 +42,15 @@ export default {
   props: {
     card: Object
   },
+  computed: {
+    getLabel: function() {
+      if(this.card.data.logs.length > 0) {
+        return this.card.data.logs[this.card.data.logs.length-1].label
+      } else {
+        return '-'
+      }
+    }
+  },
   methods: {
     getFormatedDate: function(date) {
       console.log(this)
@@ -55,7 +64,7 @@ export default {
       const newLog = {
         value: this.value,
         date: new Date(),
-        label: this.card.data.logs && this.card.data.logs[this.card.data.logs.length-1].label
+        label: getLabel
       }
 
       setTimeout(() => {
