@@ -70,14 +70,15 @@ export default {
   data() {
     return {
       collapsed: false,
-      activeCategory: 'personal'
+      activeCategory: ''
     };
   },
   mounted: function() {
     if (window.location.hash) {
       this.activeCategory = window.location.hash.substring(1);
+    } else {
+      window.location.hash = 'personal'
     }
-    console.log(this.activeCategory);
   },
   methods: {
     handleMenuClick: function(item) {
@@ -86,7 +87,6 @@ export default {
   },
   watch: {
     $route(to, from) {
-      console.log("change route")
       this.activeCategory = to.hash.substring(1);
       //this.$emit("changeActiveCategory", to.hash.substring(1));
     }

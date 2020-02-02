@@ -25,6 +25,8 @@
 </template>
 
 <script>
+//import useState from '@/composables/useState'
+
 import { createComponent, computed, reactive, ref } from "@vue/composition-api";
 import { format } from "timeago.js";
 
@@ -33,15 +35,45 @@ export default createComponent({
   props: {
     card: Object
   },
-  setup({ card }, { emit }) {
-    let state = reactive({ newLogMode: false, value: card.data.defaultStep || null, isLoading: false });
+  setup({ card }, { root, emit }) {
+    let state = reactive({
+      newLogMode: false,
+      value: card.data.defaultStep || null,
+      isLoading: false,
+      allCards: root.$store.getters.allCards
+    });
+/*
+    console.log("all cards", state.allCards);
+    function newCard() {
+      root.$store.dispatch("ADD_CARD", {
+        id: "1f571945-0b19-48d4-87ca-138c70b99974",
+        xOffset: 696,
+        yOffset: 796,
+        width: 317,
+        height: 490,
+        type: "tally",
+        categories: ["personal"],
+        title: "ADDED",
+        description: "Huber",
+        createdAt: "Mon Nov 23 2015 06:45:26 GMT+0000",
+        lastUpdate: "Sun Sep 23 2018 22:10:57 GMT+0000",
+        data: {
+          defaultStep: 1,
+          logs: [
+            {
+              label: "enim",
+              date: "Sun May 01 2016 16:42:59 GMT+0000",
+              value: 333,
+            }
+          ]
+        }
+      })
+    }*/
 
     const currentValue = computed(
       () => card.data.logs[card.data.logs.length - 1].value
     );
-    const creationDate = computed(
-      () => format(card.createdAt)
-    );
+    const creationDate = computed(() => format(card.createdAt));
 
     let currentLabel = computed(
       () => card.data.logs[card.data.logs.length - 1].label
@@ -49,9 +81,7 @@ export default createComponent({
 
     let displayLabel = computed(() => currentLabel.value);
 
-    let lastUpdateDate = computed(() =>
-      format(card.lastUpdate)
-    );
+    let lastUpdateDate = computed(() => format(card.lastUpdate));
 
     function toggleNewLogMode() {
       state.newLogMode = !state.newLogMode;
@@ -93,12 +123,12 @@ export default createComponent({
       onChange,
       incrementValue,
       decrementValue,
-      toggleNewLogMode
+      toggleNewLogMode      
     };
   }
 });
 </script>
-<style> 
+<style>
 .tally-card .ant-input-number-input {
   text-align: center !important;
 }

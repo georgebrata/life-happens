@@ -80,9 +80,9 @@ export default {
   },
   created() {
     let cardId = this.$route.params.cardId;
-    let index = this.cards.findIndex(c => c.id === cardId);
+    let index = this.allCards.findIndex(c => c.id === cardId);
     if (index > -1) {
-      this.card = this.cards[index];
+      this.card = this.allCards[index];
     }
     console.log(cardId, index);
   },
@@ -97,85 +97,16 @@ export default {
       this.activeCategory = to.hash.substring(1);
     }
   },
+  computed: {
+    allCards: function() {
+      return JSON.parse(JSON.stringify(this.$store.getters.allCards));
+    }
+  },
   data() {
     return {
       cardId: null,
       activeCategory: "personal",
-      card: { data: { logs: [] } },
-      cards: [
-        {
-          id: "206931f5-88a5-46be-aa83-5c1ad3f99260",
-          xOffset: 774,
-          yOffset: 677,
-          width: 402,
-          height: 472,
-          type: "tally",
-          categories: ["personal"],
-          title: "Kathie",
-          description: "Roth",
-          createdAt: "Sun Aug 18 2019 18:15:54 GMT+0000",
-          lastUpdate: "Sat Jan 11 2020 01:07:49 GMT+0000",
-          data: {
-            defaultStep: 3,
-            logs: [
-              {
-                label: "reprehenderit",
-                date: "Tue Mar 03 2015 12:00:20 GMT+0000",
-                value: 665,
-                total: 755
-              },
-              {
-                label: "incididunt",
-                date: "Thu Jun 02 2016 14:05:37 GMT+0000",
-                value: 478,
-                total: 767
-              },
-              {
-                label: "aute",
-                date: "Tue Oct 11 2016 16:20:06 GMT+0000",
-                value: 764,
-                total: 687
-              }
-            ]
-          }
-        },
-        {
-          id: "4532a4cf-b121-4d99-a524-34e788819459",
-          xOffset: 255,
-          yOffset: 793,
-          width: 392,
-          height: 389,
-          type: "progress",
-          categories: ["personal", "work"],
-          title: "Progress card",
-          description: "1st progress card",
-          createdAt: "Thu Jan 23 2018 04:25:55 GMT+0000",
-          lastUpdate: "Thu Jun 21 2019 21:06:32 GMT+0000",
-          data: {
-            defaultStep: 10,
-            logs: [
-              {
-                label: "enim",
-                date: "Fri Apr 10 2015 11:25:35 GMT+0000",
-                value: 191,
-                total: 1000
-              },
-              {
-                label: "id",
-                date: "Thu Sep 01 2016 04:43:37 GMT+0000",
-                value: 144,
-                total: 1000
-              },
-              {
-                label: "nulla",
-                date: "Tue Jan 08 2019 23:24:44 GMT+0000",
-                value: 749,
-                total: 1000
-              }
-            ]
-          }
-        }
-      ]
+      card: { data: { logs: [] } }
     };
   }
 };
